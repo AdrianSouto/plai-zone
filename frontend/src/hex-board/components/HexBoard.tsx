@@ -22,7 +22,7 @@ const HexBoard = () => {
     // Colors to cycle through
     const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff'];
 
-    const handleHexClick = (row, col) => {
+    const handleHexClick = (row : number, col : number) => {
         // Don't change color for label cells
         if (board[row][col].hasLetter || board[row][col].hasNumber) return;
 
@@ -37,8 +37,7 @@ const HexBoard = () => {
     };
 
     return (
-        <div className="hex-board-container">
-            <div className="hex-board">
+            <div className="hex-board w-3/4 flex flex-col items-center justify-center">
                 {board.map((row, rowIndex) => (
                     <div
                         key={rowIndex}
@@ -61,7 +60,6 @@ const HexBoard = () => {
                     </div>
                 ))}
             </div>
-        </div>
     );
 };
 
