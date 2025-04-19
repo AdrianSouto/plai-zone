@@ -1,0 +1,12 @@
+### POST request to test the /items/ endpoint
+POST http://127.0.0.1:8000/play/
+Content-Type: application/json
+
+{
+  "matrix": [
+    [1, 1, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+  ],
+  "ai_player": 2
+}
