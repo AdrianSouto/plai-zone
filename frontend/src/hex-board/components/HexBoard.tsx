@@ -3,35 +3,53 @@ import {useState} from "react";
 
 const HexBoard = () => {
     // Board configuration - diamond shape with letters on top, numbers on left
-    const rows = 8;
-    const cols = 8;
+    const size = 8 ;
+
+    const empty_color = '#ffffff'
+
+    const player_1 = {
+        name: 'player_1',
+        color : '#ff0000'
+    }
+
+    const player_2 = {
+        name: 'player_2',
+        color : '#ffe744'
+    }
+
 
     // Initialize board state with empty colors
-    const initialBoard = Array(rows).fill(1).map(() =>
-        Array(cols).fill(1).map(() => ({
-            color: '#d72f2f', // white by default
-            hasLetter: false,
-            hasNumber: false,
-            content: ''
+    const initialBoard = Array(size).fill(1).map(() =>
+        Array(size).fill(null).map(() => ({
+            color: empty_color,
+            content: 'Bar EFE'
         }))
     );
 
 
-    const [board, setBoard] = useState(initialBoard);
 
-    // Colors to cycle through
-    const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff'];
+    const [board, setBoard] = useState(initialBoard);
+    const [turn, setTurn] = useState('player_1');
 
     const handleHexClick = (row : number, col : number) => {
-        // Don't change color for label cells
-        if (board[row][col].hasLetter || board[row][col].hasNumber) return;
+
+        const hexblock_color  = board[row][col].color
+
+        if ( hexblock_color !== empty_color) return
 
         const newBoard = [...board];
-        const currentColor = newBoard[row][col].color;
-        const currentIndex = colors.indexOf(currentColor);
 
-        // Cycle to next color or back to first if at end
-        newBoard[row][col].color = colors[(currentIndex + 1) % colors.length];
+        if (turn === player_1.name)
+        {
+            newBoard[row][col].color = player_1.color;
+            setTurn(player_2.name)
+        }
+
+        else
+        {
+            newBoard[row][col].color = player_2.color;
+            setTurn(player_1.name)
+        }
 
         setBoard(newBoard);
     };
@@ -42,15 +60,14 @@ const HexBoard = () => {
                     <div
                         key={rowIndex}
                         className="hex-row"
-                        style={{ marginLeft: `${rowIndex * 65}px `  }}
+                        style={{ marginLeft: `${rowIndex * 65}px`}}
                     >
                         {row.map((hex, colIndex) => (
                             <div
                                 key={`${rowIndex}-${colIndex}`}
-                                className={`hex ${hex.hasLetter ? 'letter' : ''} ${hex.hasNumber ? 'number' : ''}`}
+                                className={'hex'}
                                 style={{ backgroundColor: hex.color  }}
                                 onClick={() => handleHexClick(rowIndex, colIndex)}
-
                             >
                                 <div className="hex-content">
                                     {hex.content}
