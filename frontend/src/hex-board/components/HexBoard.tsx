@@ -5,7 +5,7 @@ const HexBoard = () => {
     // Board configuration - diamond shape with letters on top, numbers on left
     const size = 8 ;
 
-    const empty_color = '#ffffff'
+    const empty_color = '#d8d8d8'
 
     const player_1 = {
         name: 'player_1',
@@ -22,7 +22,7 @@ const HexBoard = () => {
     const initialBoard = Array(size).fill(1).map(() =>
         Array(size).fill(null).map(() => ({
             color: empty_color,
-            content: 'Bar EFE'
+            content: 'sponsor'
         }))
     );
 
@@ -69,7 +69,7 @@ const HexBoard = () => {
                                 style={{ backgroundColor: hex.color  }}
                                 onClick={() => handleHexClick(rowIndex, colIndex)}
                             >
-                                <div className="hex-content">
+                                <div className="hex-content select-none ">
                                     {hex.content}
                                 </div>
                             </div>
