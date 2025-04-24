@@ -43,6 +43,7 @@ export default class DisjointSet {
         const root1 = this.find(row1, col1);
         const root2 = this.find(row2, col2);
 
+
         if (root1 !== root2) {
             const root1Row = Math.floor(root1 / this.parent.length);
             const root1Col = root1 % this.parent.length;
@@ -51,24 +52,24 @@ export default class DisjointSet {
 
             if (this.rank[root1Row][root1Col] > this.rank[root2Row][root2Col]) {
                 this.parent[root2Row][root2Col] = root1;
-                // Combinar direcciones de root2 en root1
                 this.directions[root1Row][root1Col] = Array.from(
                     new Set([...this.directions[root1Row][root1Col], ...this.directions[root2Row][root2Col]])
                 );
             } else if (this.rank[root1Row][root1Col] < this.rank[root2Row][root2Col]) {
                 this.parent[root1Row][root1Col] = root2;
-                // Combinar direcciones de root1 en root2
                 this.directions[root2Row][root2Col] = Array.from(
                     new Set([...this.directions[root1Row][root1Col], ...this.directions[root2Row][root2Col]])
                 );
             } else {
                 this.parent[root2Row][root2Col] = root1;
                 this.rank[root1Row][root1Col]++;
-                // Combinar direcciones de root2 en root1
                 this.directions[root1Row][root1Col] = Array.from(
                     new Set([...this.directions[root1Row][root1Col], ...this.directions[root2Row][root2Col]])
                 );
             }
+
+
+
         }
     }
 }
