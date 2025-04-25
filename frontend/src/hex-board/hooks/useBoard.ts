@@ -12,36 +12,36 @@ export default function useBoard() {
         Array(size).fill(0).map(() => (
             {
                 color: empty_color,
-                content: '</>',
-                value : 0 ,
+                content: '',
+                value: 0,
             }))
     );
 
 
     const [board, setBoard] = useState(initialBoard);
-    const [turn, setTurn] = useState({id : 1});
+    const [turn, setTurn] = useState({id: 1});
     const [disjoinSet, setDisjoinSet] = useState(new DisjointSet(size));
 
 
-    const CheckBoard = (dj : DisjointSet ,row: number, col: number ): void => {
+    const CheckBoard = (dj: DisjointSet, row: number, col: number): number | null => {
 
-        const parent = dj.find(row , col )
+        const parent = dj.find(row, col)
 
         const parentRow = Math.floor(parent / dj.parent.length);
         const parentCol = parent % dj.parent.length;
 
-        if (turn.id === 1 )
+        if (turn.id === 1 && dj.directions[parentRow][parentCol].includes('up') && dj.directions[parentRow][parentCol].includes('down'))
         {
-            if (dj.directions[parentRow][parentCol].includes('up') && dj.directions[parentRow][parentCol].includes('down')) {
-                alert('player 1 wins ')
-            }
-
+            return 1
         }
+
+        else if (turn.id === 2 && dj.directions[parentRow][parentCol].includes('left') && dj.directions[parentRow][parentCol].includes('right'))
+        {
+            return 2
+        }
+
         else
-        if (dj.directions[parentRow][parentCol].includes('left') && dj.directions[parentRow][parentCol].includes('right')) {
-            alert('player 2 wins ')
-        }
-
+            return null
     }
 
     const Merge = (row: number, col: number, dj: DisjointSet) => {
@@ -55,8 +55,8 @@ export default function useBoard() {
 
             if (newRow >= 0 && newRow < size && newCol >= 0 && newCol < size) {
 
-                if(board[row][col].color === board[newRow][newCol].color) {
-                    new_disjointSet.union(row, col, newRow, newCol, );
+                if (board[row][col].color === board[newRow][newCol].color) {
+                    new_disjointSet.union(row, col, newRow, newCol,);
 
                 }
 
@@ -66,5 +66,5 @@ export default function useBoard() {
         setDisjoinSet(new_disjointSet);
     }
 
-    return{board , setBoard , turn , setTurn , Merge , CheckBoard , disjoinSet , empty_color};
+    return {board, setBoard, turn, setTurn, Merge, CheckBoard, disjoinSet, empty_color};
 }

@@ -4,19 +4,23 @@ import useBoard from "../hooks/useBoard.ts";
 
 const player_1 = {
     name: 'player_1',
-    id : 1 ,
-    color: '#ff0000',
+    id: 1,
+    color: '#ff375a',
 }
 
 const player_2 = {
     name: 'player_2',
-    id : 2 ,
-    color: '#ffe744',
+    id: 2,
+    color: '#ffb562',
 }
 
-const HexBoard = () => {
+interface HexBoardProps {
+    setWiner: (value: (((prevState: (number | null)) => (number | null)) | number | null)) => void
+}
 
-    const{
+const HexBoard = ({setWiner}: HexBoardProps) => {
+
+    const {
 
         board,
         setBoard,
@@ -27,7 +31,7 @@ const HexBoard = () => {
         disjoinSet,
         empty_color,
 
-    }   = useBoard()
+    } = useBoard()
 
     const handleHexClick = (row: number, col: number) => {
 
@@ -37,14 +41,18 @@ const HexBoard = () => {
         if (hexblock_color !== empty_color) return
 
         const newBoard = [...board];
-        const actual_player = turn.id === player_1.id ? player_1: player_2
+        const actual_player = turn.id === player_1.id ? player_1 : player_2
 
         newBoard[row][col].value = actual_player.id
         newBoard[row][col].color = actual_player.color;
-        
+
         setBoard(newBoard)
         Merge(row, col, disjoinSet)
-        CheckBoard(disjoinSet , row , col )
+        const  winner = CheckBoard(disjoinSet, row, col)
+        if (winner !== null) {
+            setWiner(winner);
+            return
+        }
         setTurn(prevState => prevState.id === player_1.id ? player_2 : player_1);
 
     };
