@@ -87,3 +87,19 @@
         font-size: 6px;
     }
 }
+
+/* Extra small phones */
+@media (max-width: 360px) {
+    .hex-row {
+        margin: -1px;
+    }
+    .hex {
+        width: 20px;
+        height: 24px;
+        margin: 0 1px;
+        border-width: 1px;
+    }
+    .hex-content {
+        font-size: 5px;
+    }
+}
