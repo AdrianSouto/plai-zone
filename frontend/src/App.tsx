@@ -9,6 +9,7 @@ function App() {
     const [winner  , setWinner] = useState<number | null>(null)
     const [showGame, setShowGame] = useState(false)
     const [showRules, setShowRules] = useState(false)
+    const [currentTurn, setCurrentTurn] = useState(1)
 
     if (showRules) {
         return <Rules onBack={() => setShowRules(false)} />;
@@ -41,9 +42,24 @@ function App() {
                                 HEX
                             </span>
                         </h1>
+                        <div className="flex items-center gap-2">
+                            <span className="text-sm text-purple-200">Turno de:</span>
+                            <div className={`flex items-center gap-2 px-3 py-1 rounded-full border ${
+                                currentTurn === 1 
+                                    ? 'bg-red-500/20 border-red-500/50' 
+                                    : 'bg-yellow-500/20 border-yellow-500/50'
+                            }`}>
+                                <div className={`w-3 h-3 rounded-full ${
+                                    currentTurn === 1 ? 'bg-red-500' : 'bg-yellow-500'
+                                }`}></div>
+                                <span className="text-sm font-medium text-white">
+                                    {currentTurn === 1 ? 'Rojo' : 'Amarillo'}
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <div className="w-full flex-1 flex items-start justify-center overflow-auto">
-                        <HexBoard setWiner = {setWinner} />
+                        <HexBoard setWiner = {setWinner} onTurnChange={setCurrentTurn} />
                     </div>
                 </div>
             </div>
