@@ -19,9 +19,10 @@ interface HexBoardProps {
     setWiner: (value: (((prevState: (number | null)) => (number | null)) | number | null)) => void
     registerReset?: (fn: () => void) => void
     onTurnChange?: (turnId: number) => void
+    boardSize?: number
 }
 
-const HexBoard = ({setWiner, registerReset, onTurnChange}: HexBoardProps) => {
+const HexBoard = ({setWiner, registerReset, onTurnChange, boardSize = 8}: HexBoardProps) => {
 
     const {
         board,
@@ -33,7 +34,7 @@ const HexBoard = ({setWiner, registerReset, onTurnChange}: HexBoardProps) => {
         disjoinSet,
         empty_color,
         reset,
-    } = useBoard()
+    } = useBoard(boardSize)
 
     const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
 

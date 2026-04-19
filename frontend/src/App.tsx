@@ -4,19 +4,26 @@ import {useState} from "react";
 import WinnerScreen from "./hex-board/components/WinnerScreen.tsx";
 import Landing from "./pages/Landing.tsx";
 import Rules from "./pages/Rules.tsx";
+import Settings from "./pages/Settings.tsx";
 
 function App() {
     const [winner  , setWinner] = useState<number | null>(null)
     const [showGame, setShowGame] = useState(false)
     const [showRules, setShowRules] = useState(false)
+    const [showSettings, setShowSettings] = useState(false)
     const [currentTurn, setCurrentTurn] = useState(1)
+    const [boardSize, setBoardSize] = useState(8)
 
     if (showRules) {
         return <Rules onBack={() => setShowRules(false)} />;
     }
 
+    if (showSettings) {
+        return <Settings currentSize={boardSize} onCancel={() => setShowSettings(false)} onSave={(size) => { setBoardSize(size); setShowSettings(false); }} />
+    }
+
     if (!showGame) {
-        return <Landing onStartGame={() => setShowGame(true)} onShowRules={() => setShowRules(true)} />;
+        return <Landing onStartGame={() => setShowGame(true)} onShowRules={() => setShowRules(true)} onShowSettings={() => setShowSettings(true)} />;
     }
 
     return (
@@ -65,7 +72,7 @@ function App() {
                         </div>
                     </div>
                     <div className="w-full flex-1 flex items-start justify-center overflow-auto">
-                        <HexBoard setWiner = {setWinner} onTurnChange={setCurrentTurn} />
+                        <HexBoard setWiner = {setWinner} onTurnChange={setCurrentTurn} boardSize={boardSize} />
                     </div>
                 </div>
             </div>

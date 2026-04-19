@@ -3,9 +3,10 @@ import { useState, useRef, useEffect } from "react";
 interface LandingProps {
   onStartGame: () => void;
   onShowRules: () => void;
+  onShowSettings?: () => void;
 }
 
-export default function Landing({ onStartGame, onShowRules }: LandingProps) {
+export default function Landing({ onStartGame, onShowRules, onShowSettings }: LandingProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -48,7 +49,7 @@ export default function Landing({ onStartGame, onShowRules }: LandingProps) {
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3 relative" ref={dropdownRef}>
+          <div className="flex flex-col sm:flex-row gap-3 relative" ref={dropdownRef}>
           <div className="relative">
             <button
               onClick={() => setShowDropdown(!showDropdown)}
@@ -91,6 +92,13 @@ export default function Landing({ onStartGame, onShowRules }: LandingProps) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
             Cómo Jugar
+          </button>
+          
+          <button
+            onClick={() => onShowSettings?.()}
+            className="px-6 py-2 bg-white/5 text-white text-base font-semibold rounded-xl hover:bg-white/10 transition-all duration-300"
+          >
+            Ajustes
           </button>
         </div>
       </div>

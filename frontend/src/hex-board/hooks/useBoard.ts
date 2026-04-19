@@ -1,14 +1,14 @@
 import {useState} from "react";
 import DisjointSet from "../classes/DisjointSet.ts";
 
-export default function useBoard() {
+export default function useBoard(boardSize: number = 8) {
 
 
-    const size = 8;
+    const size = boardSize;
 
     const empty_color = '#d8d8d8'
 
-    const initialBoard = Array(size).fill(0).map(() =>
+    const initialBoard = () => Array(size).fill(0).map(() =>
         Array(size).fill(0).map(() => (
             {
                 color: empty_color,
@@ -18,7 +18,7 @@ export default function useBoard() {
     );
 
 
-    const [board, setBoard] = useState(initialBoard);
+    const [board, setBoard] = useState(initialBoard());
     const [turn, setTurn] = useState({id: 1});
     const [disjoinSet, setDisjoinSet] = useState(new DisjointSet(size));
 
@@ -67,13 +67,7 @@ export default function useBoard() {
     }
 
     const reset = () => {
-        setBoard(Array(size).fill(0).map(() =>
-            Array(size).fill(0).map(() => ({
-                color: empty_color,
-                content: '',
-                value: 0,
-            }))
-        ));
+        setBoard(initialBoard());
         setTurn({id: 1});
         setDisjoinSet(new DisjointSet(size));
     };
