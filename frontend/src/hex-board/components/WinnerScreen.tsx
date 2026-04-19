@@ -4,9 +4,10 @@ interface WinnerScreenProps {
   isVisible: boolean;
   winnerName?: string;
   onClose: () => void;
+  onRestart?: () => void;
 }
 
-const WinnerScreen: React.FC<WinnerScreenProps> = ({ isVisible, winnerName, onClose }) => {
+const WinnerScreen: React.FC<WinnerScreenProps> = ({ isVisible, winnerName, onClose, onRestart }) => {
   if (!isVisible) return null;
 
   const isPlayerRed = winnerName === "1";
@@ -42,7 +43,10 @@ const WinnerScreen: React.FC<WinnerScreenProps> = ({ isVisible, winnerName, onCl
 
         <div className="flex gap-4 justify-center">
           <button
-            onClick={onClose}
+            onClick={() => {
+              const handle = onRestart ? onRestart : onClose;
+              handle();
+            }}
             className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-xl shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-300 hover:scale-105"
           >
             Jugar de nuevo

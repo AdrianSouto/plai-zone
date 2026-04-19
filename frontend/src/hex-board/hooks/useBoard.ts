@@ -66,5 +66,17 @@ export default function useBoard() {
         setDisjoinSet(new_disjointSet);
     }
 
-    return {board, setBoard, turn, setTurn, Merge, CheckBoard, disjoinSet, empty_color};
+    const reset = () => {
+        setBoard(Array(size).fill(0).map(() =>
+            Array(size).fill(0).map(() => ({
+                color: empty_color,
+                content: '',
+                value: 0,
+            }))
+        ));
+        setTurn({id: 1});
+        setDisjoinSet(new DisjointSet(size));
+    };
+
+    return {board, setBoard, turn, setTurn, Merge, CheckBoard, disjoinSet, empty_color, reset};
 }

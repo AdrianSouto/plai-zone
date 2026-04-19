@@ -21,7 +21,13 @@ function App() {
 
     return (
         <>
-            <WinnerScreen onClose={() => setWinner(null)} isVisible ={!!winner } winnerName={winner?.toString() }></WinnerScreen>
+            <WinnerScreen onClose={() => setWinner(null)} isVisible ={!!winner } winnerName={winner?.toString() } onRestart={() => {
+                // restart: reset board and reset turn
+                setWinner(null);
+                setCurrentTurn(1);
+                // call reset function via DOM event to avoid prop plumbing
+                window.dispatchEvent(new CustomEvent('hex-reset'));
+            }}></WinnerScreen>
             <div className="h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden flex flex-col">
                 <div className="absolute inset-0 opacity-20 pointer-events-none">
                     <div className="absolute top-10 left-1/4 w-48 h-48 bg-purple-500 rounded-full blur-3xl"></div>

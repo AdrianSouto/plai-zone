@@ -17,9 +17,11 @@ const player_2 = {
 
 interface HexBoardProps {
     setWiner: (value: (((prevState: (number | null)) => (number | null)) | number | null)) => void
+    registerReset?: (fn: () => void) => void
+    onTurnChange?: (turnId: number) => void
 }
 
-const HexBoard = ({setWiner}: HexBoardProps) => {
+const HexBoard = ({setWiner, registerReset, onTurnChange}: HexBoardProps) => {
 
     const {
         board,
@@ -30,6 +32,7 @@ const HexBoard = ({setWiner}: HexBoardProps) => {
         Merge,
         disjoinSet,
         empty_color,
+        reset,
     } = useBoard()
 
     const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
@@ -44,6 +47,19 @@ const HexBoard = ({setWiner}: HexBoardProps) => {
         window.addEventListener('resize', checkSize);
         return () => window.removeEventListener('resize', checkSize);
     }, []);
+
+    useEffect(() => {
+        if (typeof registerReset === 'function') {
+            registerReset(() => reset());
+        }
+    }, [registerReset, reset]);
+
+    // listen for global reset event (dispatched from App)
+    useEffect(() => {
+        const handler = () => reset();
+        window.addEventListener('hex-reset', handler as EventListener);
+        return () => window.removeEventListener('hex-reset', handler as EventListener);
+    }, [reset]);
 
     const getOffset = (rowIndex: number) => {
         const offsets = { mobile: 23, tablet: 29, desktop: 40 };
@@ -67,7 +83,9 @@ const HexBoard = ({setWiner}: HexBoardProps) => {
             setWiner(winner);
             return
         }
-        setTurn(prevState => prevState.id === player_1.id ? player_2 : player_1);
+        const nextTurn = turn.id === player_1.id ? player_2 : player_1;
+        setTurn(nextTurn);
+        onTurnChange?.(nextTurn.id);
     };
 
     return (
