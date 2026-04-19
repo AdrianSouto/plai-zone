@@ -2,9 +2,15 @@ import './App.css'
 import HexBoard from "./hex-board/components/HexBoard.tsx";
 import {useState} from "react";
 import WinnerScreen from "./hex-board/components/WinnerScreen.tsx";
+import Landing from "./pages/Landing.tsx";
 
 function App() {
     const [winner  , setWinner] = useState<number | null>(null)
+    const [showGame, setShowGame] = useState(false)
+
+    if (!showGame) {
+        return <Landing onStartGame={() => setShowGame(true)} />;
+    }
 
     return (
         <>
