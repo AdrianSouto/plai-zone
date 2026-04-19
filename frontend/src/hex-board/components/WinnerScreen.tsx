@@ -29,8 +29,8 @@ const WinnerScreen: React.FC<WinnerScreenProps> = ({ isVisible, winnerName, onCl
           <div className="inline-flex items-center gap-3 mt-4">
             <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
               isPlayerRed 
-                ? 'bg-gradient-to-br from-red-500 to-orange-500' 
-                : 'bg-gradient-to-br from-blue-500 to-cyan-500'
+                ? 'bg-red-500 ' 
+                : 'bg-blue-500'
             }`}>
               <span className="text-white font-bold text-xl">{winnerName}</span>
             </div>
