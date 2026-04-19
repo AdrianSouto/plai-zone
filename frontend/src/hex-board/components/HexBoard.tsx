@@ -71,7 +71,7 @@ const HexBoard = ({setWiner}: HexBoardProps) => {
     };
 
     return (
-        <div className={`hex-board flex flex-col items-start justify-center mx-0 ${screenSize}`}>
+        <div className={`hex-board flex flex-col items-start justify-center mx-0 my-30  ${screenSize}`}>
             {board.map((row, rowIndex) => (
                 <div
                     key={rowIndex}
