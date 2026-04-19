@@ -4,21 +4,19 @@
     padding: 20px;
 }
 
-
 .hex-row {
     display: flex;
-    margin: -7px;
-
-
-
+    padding-left: 0;
+    margin: -4px;
 }
 
 .hex {
     position: relative;
-    width: 60px;
-    height: 69.28px; /* width * sqrt(3) */
+    width: 50px;
+    height: 58px;
     margin: 0 2px;
-    background-color: #1e1b4b;
+    background-color: #312e81;
+    border: 1px solid #4338ca;
     clip-path: polygon(
             50% 0%,
             100% 25%,
@@ -35,19 +33,19 @@
 }
 
 .hex:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
 }
-
-
 
 .hex-content {
     font-weight: bold;
-    font-size: 14px;
+    font-size: 12px;
+    color: #a5b4fc;
     z-index: 1;
 }
 
 .hex.letter, .hex.number {
     background-color: transparent !important;
+    border: none;
     clip-path: none;
     cursor: default;
 }
@@ -58,4 +56,34 @@
 
 .hex.number {
     margin-right: 20px;
+}
+
+@media (max-width: 640px) {
+    .hex-row {
+        margin: -3px;
+    }
+    .hex {
+        width: 34px;
+        height: 39px;
+        margin: 0 1px;
+        border-width: 1px;
+    }
+    .hex-content {
+        font-size: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hex-row {
+        margin: -2px;
+    }
+    .hex {
+        width: 26px;
+        height: 30px;
+        margin: 0 1px;
+        border-width: 1px;
+    }
+    .hex-content {
+        font-size: 6px;
+    }
 }

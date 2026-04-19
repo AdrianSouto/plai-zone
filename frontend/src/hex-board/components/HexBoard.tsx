@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import '../styles/HexBoard.css';
 
 import useBoard from "../hooks/useBoard.ts";
@@ -21,7 +22,6 @@ interface HexBoardProps {
 const HexBoard = ({setWiner}: HexBoardProps) => {
 
     const {
-
         board,
         setBoard,
         turn,
@@ -30,14 +30,28 @@ const HexBoard = ({setWiner}: HexBoardProps) => {
         Merge,
         disjoinSet,
         empty_color,
-
     } = useBoard()
 
+    const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
+
+    useEffect(() => {
+        const checkSize = () => {
+            if (window.innerWidth <= 480) setScreenSize('mobile');
+            else if (window.innerWidth <= 640) setScreenSize('tablet');
+            else setScreenSize('desktop');
+        };
+        checkSize();
+        window.addEventListener('resize', checkSize);
+        return () => window.removeEventListener('resize', checkSize);
+    }, []);
+
+    const getOffset = (rowIndex: number) => {
+        const offsets = { mobile: 23, tablet: 29, desktop: 40 };
+        return rowIndex * offsets[screenSize];
+    };
+
     const handleHexClick = (row: number, col: number) => {
-
         const hexblock_color = board[row][col].color
-
-
         if (hexblock_color !== empty_color) return
 
         const newBoard = [...board];
@@ -48,31 +62,30 @@ const HexBoard = ({setWiner}: HexBoardProps) => {
 
         setBoard(newBoard)
         Merge(row, col, disjoinSet)
-        const  winner = CheckBoard(disjoinSet, row, col)
+        const winner = CheckBoard(disjoinSet, row, col)
         if (winner !== null) {
             setWiner(winner);
             return
         }
         setTurn(prevState => prevState.id === player_1.id ? player_2 : player_1);
-
     };
 
     return (
-        <div className="hex-board w-3/4 flex flex-col items-center justify-center">
+        <div className={`hex-board flex flex-col items-start justify-center mx-0 ${screenSize}`}>
             {board.map((row, rowIndex) => (
                 <div
                     key={rowIndex}
                     className="hex-row"
-                    style={{marginLeft: `${rowIndex * 65}px`}}
+                    style={{paddingLeft: rowIndex === 0 ? 0 : `${getOffset(rowIndex)}px`}}
                 >
                     {row.map((hex, colIndex) => (
                         <div
                             key={`${rowIndex}-${colIndex}`}
-                            className={'hex'}
+                            className="hex"
                             style={{backgroundColor: hex.color}}
                             onClick={() => handleHexClick(rowIndex, colIndex)}
                         >
-                            <div className="hex-content select-none ">
+                            <div className="hex-content select-none">
                                 {board[rowIndex][colIndex].content}
                             </div>
                         </div>
