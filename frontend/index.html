@@ -36,9 +36,14 @@
       });
     </script>
     <style>
-      .floatingchat-container-wrap { left: unset !important; right: 16px !important; }
-      .floatingchat-container-wrap-mobi { left: unset !important; right: 16px !important; }
-      .floating-chat-kofi-popup-iframe { left: unset !important; right: 16px !important; }
+      .floatingchat-container-wrap { left: 50% !important; right: unset !important; transform: translateX(-50%); }
+      .floatingchat-container-wrap-mobi { left: 50% !important; right: unset !important; transform: translateX(-50%); }
+      .floating-chat-kofi-popup-iframe { left: 50% !important; right: unset !important; transform: translateX(-50%); }
+      @media (max-width: 480px) {
+        .floatingchat-container-wrap { bottom: 20px !important; }
+        .floatingchat-container-wrap-mobi { bottom: 20px !important; }
+        .floating-chat-kofi-popup-iframe { bottom: 20px !important; }
+      }
     </style>
   </body>
 </html>
